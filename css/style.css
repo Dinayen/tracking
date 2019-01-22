@@ -28,6 +28,9 @@ footer{
       background-color:#eeeeee;
       margin-bottom: 25px;
     }
+    .container{
+      margin-bottom: 30px;
+    }
     .subscription{
       background-color: #03528d;
       color:#fff;

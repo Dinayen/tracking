@@ -4,7 +4,7 @@
 		$number=$_REQUEST['track_num'];
 		$option=$_REQUEST['option_good'];
 		
-	$sql="SELECT * FROM add_track WHERE track_num ='$number' AND option_id='$option'";
+	$sql="SELECT * FROM add_table WHERE track_num ='$number' AND container='$option'";
 	$result=mysqli_query($conn,$sql);
 	if(mysqli_num_rows($result)>0)
 	   {
@@ -59,47 +59,31 @@
 		<h1>Cargo Tracking</h1>
 		<div class="container">
   			<div class="row">
-    			<div class="col-sm-2">
+    			<div class="col-sm-12 col-lg-4">
       				<div class="dropdown show">
   					<!-- <input type="text" value="" class="col-lg-12" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-  					<?php $id=$text_result["option_id"]; 
-  					 $good="SELECT * FROM option_table WHERE option_id='$id'";
+  					<?php $id=$text_result["container"]; 
+  					 $good="SELECT * FROM add_table WHERE container='$id'";
   					 $query=mysqli_query($conn,$good);
   					 $good_result=mysqli_fetch_assoc($query);
   					 ?>
   					 <input type="text" 
-  					 value="<?php echo $good_result['option_name'];?>" class="col-lg-12" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"a|>
-					  <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-					    <a class="dropdown-item" href="#">Bill of lading</a><br>
-					    <a class="dropdown-item" href="#">Booking of container</a>
-					  </div> -->
+  					 value="<?php echo $good_result['container'];?>" class="col-lg-7 col-sm-12" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"a|>
 					</div>
     			</div>
-	    		<div class="col-sm-8">
+	    		<div class="col-sm-7">
 	      			<input type="text" value="<?php echo $text_result["track_num"]; ?>" class="col-lg-12">
 	    		</div>
-			    <div class="col-sm-2">
-			      <button class="btn btn-danger btn btn-md">Search</button>
-			    </div>
   			</div>
-  			<p>(Enter up to six container numbers separated by commas) </p>
+  			<br><br><p>(Enter up to six container numbers separated by commas) <input type="button" class="print" onClick="window.print()" value="Print"></p>
 		</div>
 
-		<input type="button" class="print" onClick="window.print()" value="Print">
-
-	    <?php
-		include("admin/config.php");
-		$sql_result="SELECT * FROM add_track ORDER BY track_id DESC LIMIT 3";
-		$query_result=mysqli_query($conn,$sql_result);
-		if(mysqli_num_rows($query_result)>0){
-		?>
-
-
+		
 	<table class="table table-hover">
 	  <thead>
 	    <tr>
 		   <th><b><?php echo $text_result["track_num"]; ?></b>
-		       <p class="text-muted"><b>SIZE/TYPE <?php echo $text_result["type"]; ?> Seal No <?php echo $text_result["seal_no"]; ?></b></p></th>
+		       <p class="text-muted"><b>SIZE/TYPE <?php echo $text_result["size_type"]; ?> Seal No <?php echo $text_result["seal_no"]; ?></b></p></th>
 		    <th>  ETA<br><b><?php echo $text_result["arrival_date"]; ?>
 		      <?php echo $text_result["arrival"]; ?></b></th>
 		    <th></th>
@@ -107,57 +91,26 @@
 		   <!-- <th> <button class="subscription">Subscription</button></th> -->
 	    </tr>
 	  </thead>
-	  <tbody>
-	  <tr class="trcolor">
-		  <th scope="col"><?php  echo Date("M-D-Y");?><br><?php echo $text_result["departure"]; ?></th>
-	      <th scope="col">[Latest Status]<br><?php echo $text_result["lstatus"]; ?></th>
-	      <th scope="col">[Location]<br><?php echo $text_result["location"]; ?></th>
-	      <th scope="col">[Transportation]<br><?php echo $text_result["type"]; ?></th>
-	  </tr>
-	  <?php  
-	  while($result=mysqli_fetch_assoc($query_result)){
-	  ?>
-	    <tr>
-	      <!-- <th scope="row">3</th> -->
-	      <td><?php echo $result["departure_date"]; ?><br><?php echo $result["departure"]; ?></td>
-	      <td>[Latest Status]<br><?php echo $result["lstatus"]; ?></td>
-	      <td>[Location]<br><?php echo $result["location"]; ?></td>
-	      <td>[Transportation]<br><?php echo $result["transportation"]; ?></td>
+ <tbody>
+ <?php
+ include("admin/config.php");
+		$sql_result="SELECT * FROM add_track ORDER BY track_id DESC LIMIT 3";
+		$query_result=mysqli_query($conn,$sql_result);
+		$color=mysqli_fetch_assoc($query_result);
+		?>
+	    <tr class="trcolor">
+		   <th><?php echo $color["departure_date"]?><br><?php echo $color["departure"]?></th>
+		    <th>[Latest Status]<br>  <?php echo $color["lstatus"]?></th>
+		    <th>[Location]<br><?php echo $color["location"]?></th>
+		    <th>[Transportation]<br><?php echo $color["transportation"]?></th>
+		   <!-- <th> <button class="subscription">Subscription</button></th> -->
 	    </tr>
-	    <?php } ?>
-	  </tbody>
-	</table>
-	<?php } ?>
-
-
-	<!-- The accordion -->
-	<button class="accordion"><i class="fa fa-square"> </i>Close current shipment cycle status</button>
-	<div class="panel">
 	   <?php
 		include("admin/config.php");
-		$sql_result="SELECT * FROM add_track ORDER BY track_id DESC";
+		$sql_result="SELECT * FROM add_track ORDER BY track_id DESC LIMIT 3";
 		$query_result=mysqli_query($conn,$sql_result);
 		if(mysqli_num_rows($query_result)>0){
-		?>
-	<table class="table table-hover">
-	  <thead>
-	    <tr>
-		   <th><b><?php echo $text_result["track_num"]; ?></b>
-		       <p class="text-muted"><b>SIZE/TYPE <?php echo $text_result["type"]; ?>  Seal No <?php echo $text_result["track_num"]; ?></b></p></th>
-		    <th>  ETA<br><b><?php echo $text_result["arrival_date"]; ?>
-		      <?php echo $text_result["arrival"]; ?></b></th>
-		    <th></th>
-		   <th> <button class="subscription">Subscription</button></th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	  <tr class="trcolor">
-		  <th scope="col"><?php  echo Date("M-D-Y");?><br><?php echo $text_result["departure"]; ?></th>
-	      <th scope="col">[Latest Status]<br><?php echo $text_result["lstatus"]; ?></th>
-	      <th scope="col">[Location]<br><?php echo $text_result["location"]; ?></th>
-	      <th scope="col">[Transportation]<br><?php echo $text_result["type"]; ?></th>
-	  </tr>
-	  <?php  
+		  
 	  while($result=mysqli_fetch_assoc($query_result)){
 	  ?>
 	    <tr>
@@ -179,28 +132,13 @@
 <!-- Footer begins -->
 	<footer>
 		Terms of use | About us<br>
-		Contact us stacy@.com<br>
-		COPYRIGHT &copy 1998-2007 ALL RIGHTS RESERVED
+		COPYRIGHT &copy 2019 ALL RIGHTS RESERVED
 	</footer>
 <!-- Footer ends -->
 </div>
 
 
 <script>
-var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
-}
 </script>
 
 </body>

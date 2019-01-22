@@ -18,7 +18,7 @@
 
 <?php
 		include("config.php");
-		$sql="SELECT * FROM add_track";
+		$sql="SELECT * FROM add_table";
 		$query=mysqli_query($conn,$sql);
 		if(mysqli_num_rows($query)>0){
 	?>
@@ -40,10 +40,11 @@
     <tr>
       <!-- <th scope="row">3</th> -->
      <td><?php echo $result["track_num"];?></td>
-			<td><?php echo $result["type"];?></td>
-			<td><a href="add_details.php?id=<?php echo $result['track_num'];?>&option_id=<?php echo $result['option_id'];?>"><button class="btn btn-primary">Add Details</button></a></td>
-			<td> <a href="edit.php?id=<?php echo $result["track_id"];?>">Edit</a></td>
-			<td> <a href="delete.php?id=<?php echo $result["track_id"];?>">Delete</a></td>
+			<td><?php echo $result["size_type"];?></td>
+			<td><a href="add_details.php?track_num=<?php echo $result['track_num'];?>&container=<?php echo $result['container'];?>" class="btn btn-primary">Add Details</a></td>
+			<td> <a href="edit.php?track_num=<?php echo $result['track_num'] ?>"> Edit </a></td>
+          <td> <a href="delete.php?track_num=<?php echo $result['track_num'] ?>"> Delete </a></td>
+
     </tr>
  
   </tbody>

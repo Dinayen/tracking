@@ -1,50 +1,56 @@
- <?php
-    include("config.php");
-    $sql_result="SELECT * FROM add_track ORDER BY track_id DESC";
+
+<?php
+include("config.php");
+if(isset($_GET['track_num']))
+{
+$track=$_GET['track_num'];  
+$container=$_GET['container'];  
+$sql="SELECT * FROM add_table WHERE track_num='$track' AND container='$container'";
+  $result=mysqli_query($conn,$sql);
+  $row=mysqli_fetch_assoc($result);
+
+
+
+// The code to loop through the database
+    $sql_result="SELECT * FROM add_track WHERE track_num='$track' AND container='$container'";
     $query_result=mysqli_query($conn,$sql_result);
-    if(mysqli_num_rows($query_result)>0){
-    ?>
-<table class="table table-hover">
+    if(mysqli_num_rows($query_result)==0){
+
+    }else{
+      ?>
+      <table class="table table-hover">
     <thead>
-     <?php  
-    while($result=mysqli_fetch_assoc($query_result)){
-    ?>
+   
        <tr class="trcolor">
         <th scope="col">Latest Status</th>
         <th scope="col">Location</th>
-        <th scope="col">Departure Time/Date</th>
-        <th scope="col">Transportation</th>
+        <th scope="col">Departure Time</th>
+        <th scope="col">Departure Date</th>
+        <th scope="col">Transport</th>
+        <th scope="col">Edit </th>
+        <th scope="col">Delete</th>
     </tr>
     </thead>
+      <?php  
+    while($result=mysqli_fetch_assoc($query_result)){
+    ?>
     <tbody>
       <tr>
         <!-- <th scope="row">3</th> -->
         <td><?php echo $result["lstatus"]; ?></td>
         <td><?php echo $result["location"]; ?></td>
-        <td><?php echo $result["departure_date"]; ?> <?php echo $result["departure"]; ?></td>
+        <td><?php echo $result["departure_date"]; ?> 
+        <td><?php echo $result["departure"]; ?></td>
         <td><?php echo $result["transportation"]; ?></td>
+        <td> <a href="edit.php?id=<?php echo $result["add_id"];?>">Edit</a></td>
+      <td> <a href="delete.php?id=<?php echo $result["add_id"];?>">Delete</a></td>
+        
       </tr>
       <?php } ?>
     </tbody>
   </table>
-  <?php } ?>
+  <?php }}?>
 
-
-<?php
-include("config.php");
-if(isset($_GET['id']))
-{
-$id=$_GET['id'];  
-$option=$_GET['option_id'];  
-$sql="SELECT * FROM add_track WHERE track_id=$id AND option_id=$option";
-  $result=mysqli_query($conn,$sql);
-  $row=mysqli_fetch_assoc($result);
-}else
-{
- header('Location:view.php');  
-}
-
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,8 +65,8 @@ $sql="SELECT * FROM add_track WHERE track_id=$id AND option_id=$option";
 <body>
 	<div class="container">
 	<form method="POST" action="detailspasser.php">
-    <input type="hidden" value="<?php echo $row['track_num']; ?>">
-    <input type="hidden" value="<?php echo $row['option_id']; ?>">
+    <input type="hidden" name="track_num" value="<?php echo $track; ?>">
+    <input type="hidden" name="container" value="<?php echo $container; ?>">
      <div class="form-group">
       <label for="lstatus">Latest Status</label>
       <input type="text" class="form-control" id="lstatus" name="lstatus">

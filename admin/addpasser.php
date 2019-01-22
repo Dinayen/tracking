@@ -5,14 +5,14 @@
 	$arrival=$_POST['arrival'];
 	$arrival_date=$_POST['arrival_date'];
 	$seal=$_POST['seal_no'];
-	$good=$_POST['option_good'];
+	$container=$_POST['option_good'];
 
-	$sql="INSERT INTO add_track (track_num,type,arrival,arrival_date,seal_no,option_id) VALUES('$num','$type','$arrival','$arrival_date','$seal','$good')";
+	$sql="INSERT INTO add_table (track_num,size_type,container,arrival,arrival_date,seal_no) VALUES('$num','$type','$container','$arrival','$arrival_date','$seal')";
 	$query=mysqli_query($conn,$sql);
 	if($query){
 		 header('Location:view.php');  
 	}else{
-		echo "Not successfully inserted".mysqli_error($conn);
+		echo "Not successfully inserted ".mysqli_error($conn);
 	}
 
 ?>

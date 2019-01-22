@@ -1,11 +1,15 @@
 <?php
 include("config.php");
-if(isset($_GET['id']))
+if(isset($_GET['track_num']))
 {
-$id=$_GET['id'];  
-$sql="SELECT * FROM add_track WHERE track_id=$id";
+$id=$_GET['track_num'];  
+$sql="SELECT * FROM add_table WHERE track_num=$id";
   $result=mysqli_query($conn,$sql);
   $row=mysqli_fetch_assoc($result);
+
+  $add_sql="SELECT * FROM add_track WHERE track_num=$id";
+  $add_query=mysqli_query($conn,$add_sql);
+  $result_add=mysqli_fetch_assoc($add_query);
 }else
 {
  header('Location:index.php');  
@@ -34,23 +38,23 @@ $sql="SELECT * FROM add_track WHERE track_id=$id";
     </div>
     <div class="form-group">
       <label for="status">Latest Status:</label>
-      <input type="text" class="form-control" id="status" name="lstatus" value="<?php echo $row['lstatus']; ?>">
+      <input type="text" class="form-control" id="status" name="lstatus" value="<?php echo $result_add['lstatus']; ?>">
     </div>
     <div class="form-group">
       <label for="Location">Location:</label>
-      <input type="text" class="form-control" id="Location" name="location" value="<?php echo $row['location']; ?>">
+      <input type="text" class="form-control" id="Location" name="location" value="<?php echo $result_add['location']; ?>">
     </div>
     <div class="form-group">
       <label for="type">Tracking type:</label>
-      <input type="text" class="form-control" id="type" name="type" value="<?php echo $row['type']; ?>">
+      <input type="text" class="form-control" id="type" name="type" value="<?php echo $row['size_type']; ?>">
     </div>
     <div class="form-group">
       <label for="departure">Departure:</label>
-      <input type="text" class="form-control" id="departure" name="departure" value="<?php echo $row['departure']; ?>">
+      <input type="text" class="form-control" id="departure" name="departure" value="<?php echo $result_add['departure']; ?>">
     </div>
     <div class="form-group">
       <label for="departure_date">Departure Date:</label>
-      <input type="date" class="form-control" id="departure_date" name="departure_date" value="<?php echo $row['departure_date']; ?>">
+      <input type="date" class="form-control" id="departure_date" name="departure_date" value="<?php echo $result_add['departure_date']; ?>">
     </div>
     <div class="form-group">
       <label for="arrival">Arrival:</label>
@@ -62,11 +66,19 @@ $sql="SELECT * FROM add_track WHERE track_id=$id";
     </div>
     <div class="form-group">
       <label for="transportation">Transportation:</label>
-      <input type="text" class="form-control" id="transportation" name="transportation" value="<?php echo $row['transportation']; ?>">
+      <input type="text" class="form-control" id="transportation" name="transportation" value="<?php echo $result_add['transportation']; ?>">
     </div>
     <div class="form-group">
       <label for="seal">Seal Number:</label>
       <input type="text" class="form-control" id="seal" name="seal_no" value="<?php echo $row['seal_no']; ?>">
+    </div>
+<div class="form-group">
+      <label for="type">Container</label>
+     <select name="container" class="form-control">
+       <option >Container</option>
+       <option >Bill of lading</option>
+       <option >Booking of container</option>
+     </select>
     </div>
 
     <div class="form-group">

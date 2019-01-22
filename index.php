@@ -22,7 +22,7 @@
 
     <div class="container">
       <?php
-        $sql="SELECT * FROM add_track";
+        $sql="SELECT * FROM add_table";
         $result=mysqli_query($conn,$sql);
         if(mysqli_num_rows($result)>0)
         {
@@ -46,9 +46,9 @@
           <tr>
 
            <td> <?php echo $row["track_num"] ;?> </td>
-           <td> <?php echo $row["type"] ;?> </td>
-          <td> <a href="admin/edit.php?id=<?php echo $row['track_id'] ?>"> Edit </a></td>
-          <td> <a href="admin/delete.php?id=<?php echo $row['track_id'] ?>"> Delete </a></td>
+           <td> <?php echo $row["size_type"] ;?> </td>
+          <td> <a href="admin/edit.php?track_num=<?php echo $row['track_num'] ?>"> Edit </a></td>
+          <td> <a href="admin/delete.php?track_num=<?php echo $row['track_num'] ?>"> Delete </a></td>
 
         </tr>
            <?php };  ?>

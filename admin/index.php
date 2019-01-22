@@ -54,20 +54,11 @@
                   <input class="form-control form-control-lg form-control-borderless" name="track_num" type="search" placeholder="Enter track number">
                 </div>
 
-                 <select name="option_good" class="col-12 col-md-2 col-lg-4">
-                 <option>Choose one option</option>
-       <option>
-       <?php  
-          include("config.php");
-          $sql_doc="SELECT * FROM option_table";
-          $sql=mysqli_query($conn,$sql_doc);
-            if(mysqli_num_rows($sql)>0){
-              while($row=mysqli_fetch_assoc($sql)){
-              echo "<option value='".$row['option_id']."'>".ucwords($row['option_name'])."  </option>";
-              }
-              }
-        ?>
-        </option>
+                 <select name="option_good" class="col-12 col-md-2 col-lg-4 form-control form-control-lg form-control-borderless">
+                 <option>Select your container</option>
+                 <option>Container</option>
+                 <option>Bill of lading</option>
+                 <option>Booking of container</option>
      </select>
                 <!--end of col-->
                 <div class="col-auto">

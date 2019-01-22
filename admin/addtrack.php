@@ -35,20 +35,11 @@
       <input type="text" class="form-control" id="track" name="track_num">
     </div> 
     <div class="form-group">
-      <label for="type">Good/Option</label>
-     <select name="option_good">
-       <option>
-       <?php  
-          include("config.php");
-          $sql_doc="SELECT * FROM option_table";
-          $sql=mysqli_query($conn,$sql_doc);
-            if(mysqli_num_rows($sql)>0){
-              while($row=mysqli_fetch_assoc($sql)){
-              echo "<option value='".$row['option_id']."'>".ucwords($row['option_name'])."  </option>";
-              }
-              }
-        ?>
-        </option>
+      <label for="type">Container</label>
+     <select name="option_good" class="form-control">
+       <option name="container">Container</option>
+       <option name="bill">Bill of lading</option>
+       <option name="booking">Booking of container</option>
      </select>
     </div>
 	<div class="form-group">
