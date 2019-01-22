@@ -1,68 +1,66 @@
 <?php
-  if (isset($_REQUEST['error'])) {
-    $error =$_REQUEST['error'];
-  }else{
-    $error = "";
-  }
+  include("config.php");
 ?>
- 
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
   <head>
-
-    <title></title>
-      <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-      <!------ Include the above in your HEAD tag ---------->
-
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-
-      <style>
-
-      .form-control-borderless {
-          border: none;
-      }
-
-      .form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
-          border: none;
-          outline: none;
-          box-shadow: none;
-      }
-
-      </style>
-
+    <title>Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
   </head>
-
   <body>
-
-<div class="container">
-<br/>
-  <div class="row justify-content-center">
     <div class="container">
-      <div class="col-12 col-md-10 col-lg-12">
-              </div>
-          <form class="card card-sm" action="result.php" method="POST">
-              <div class="card-body row no-gutters align-items-center">
-                <div class="col-auto">
-                    <i class="fas fa-search h4 text-body"></i>
-                </div>
-                <!--end of col-->
-                <div class="col">
-                  <input class="form-control form-control-lg form-control-borderless" name="track_num" type="search" placeholder="Enter track number">
-                </div>
-                <!--end of col-->
-                <div class="col-auto">
-                  <button class="btn btn-lg btn-primary" type="submit" name="track">Track</button>
-                </div>
-                </div>
-          </form>
-          <font color="red"><?php echo $error; ?></font>
-        </div>
-      <!--end of col-->
-  </div>
-</div>
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="index.php">Home</a></li>
+          <li><a href="admin/addtrack.php">Add Tracking</a></li>   
+        </ul>
+    </div>
+
+    <div class="container">
+      <?php
+        $sql="SELECT * FROM add_track";
+        $result=mysqli_query($conn,$sql);
+        if(mysqli_num_rows($result)>0)
+        {
+      ?>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Tracking Number</th>
+            <th>Size/Type</th>
+            <th><a href="admin/edit.php"> Edit </a> </th>
+            <th> <a href="admin/delete.php"> Delete </a></th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php
+        while ($row=mysqli_fetch_assoc($result) )
+          {
+
+          ?>
+
+          <tr>
+
+           <td> <?php echo $row["track_num"] ;?> </td>
+           <td> <?php echo $row["type"] ;?> </td>
+          <td> <a href="admin/edit.php?id=<?php echo $row['track_id'] ?>"> Edit </a></td>
+          <td> <a href="admin/delete.php?id=<?php echo $row['track_id'] ?>"> Delete </a></td>
+
+        </tr>
+           <?php };  ?>
+        </tbody>
+      </table>
+      <?php
+
+        };
+      ?>
+
+    </div>
+
   </body>
+
 </html>

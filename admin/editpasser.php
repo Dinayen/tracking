@@ -10,9 +10,9 @@ include('config.php');
 	$arrival=$_POST['arrival'];
 	$arrival_date=$_POST['arrival_date'];
 	$transportation=$_POST['transportation'];
-	$name=$_POST['name'];
-
-	$sql="UPDATE add_track SET track_num='$num',lstatus='$status',location='$location',type='$type',departure='$departure',departure_date='$departure_date',arrival='$arrival',arrival_date='$arrival_date',transportation='$transportation',name='$name' WHERE track_id='$id'";
+	$seal=$_POST['seal_no'];
+	
+	$sql="UPDATE add_track SET track_num='$num',lstatus='$status',location='$location',type='$type',departure='$departure',departure_date='$departure_date',arrival='$arrival',arrival_date='$arrival_date',transportation='$transportation',seal_no='$seal' WHERE track_id='$id'";
 	$query=mysqli_query($conn,$sql);
 	if($query){
 		header("Location:view.php");

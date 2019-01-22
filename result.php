@@ -1,17 +1,19 @@
 <?php
 	if (isset($_REQUEST['track'])) {
-		include("config.php");
+		include("admin/config.php");
 		$number=$_REQUEST['track_num'];
-	$sql="SELECT * FROM add_track WHERE track_num ='$number'";
+		$option=$_REQUEST['option_good'];
+		
+	$sql="SELECT * FROM add_track WHERE track_num ='$number' AND option_id='$option'";
 	$result=mysqli_query($conn,$sql);
 	if(mysqli_num_rows($result)>0)
 	   {
 			$text_result=mysqli_fetch_assoc($result);
 		}else{
-				header("Location:index.php?error=Invalid Tracking Code");
+				header("Location:admin/index.php?error=Invalid Tracking Code").mysqli_error($conn);
 			}
 		}else{
-			header("Location:index.php?error=Insert Tracking Code");
+			header("Location:admin/index.php?error=Insert Tracking Code");
 		}
 ?>
 <!DOCTYPE html>
@@ -35,22 +37,6 @@
 <!-- Header Begins -->
 	<header>
 		<div class="container">
-			<div class="row">
-				<div class="col-sm-8">
-					<img src="images/logo.png" width="250px">
-				</div>
-			<div class="col-sm-4">
-				<div class="col-sm-12">
-					<div class="col-sm-8">
-						Back to old version
-					</div>
-					<div class="col-sm-4">
-					</div>
-				</div>
-			</div>
-			</div>
-		</div>
-
 		<div class="navbar">
 			<nav class="navbar navbar-default">
 			  <div class="container-fluid">
@@ -70,17 +56,23 @@
 
 
 	<div class="main_content container">
-		<h1><?php echo $text_result["type"]; ?>Tracking</h1>
+		<h1>Cargo Tracking</h1>
 		<div class="container">
   			<div class="row">
     			<div class="col-sm-2">
       				<div class="dropdown show">
   					<!-- <input type="text" value="" class="col-lg-12" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-  					 <input type="text" value="Container" class="col-lg-12" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"a|>
-					  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+  					<?php $id=$text_result["option_id"]; 
+  					 $good="SELECT * FROM option_table WHERE option_id='$id'";
+  					 $query=mysqli_query($conn,$good);
+  					 $good_result=mysqli_fetch_assoc($query);
+  					 ?>
+  					 <input type="text" 
+  					 value="<?php echo $good_result['option_name'];?>" class="col-lg-12" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"a|>
+					  <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 					    <a class="dropdown-item" href="#">Bill of lading</a><br>
 					    <a class="dropdown-item" href="#">Booking of container</a>
-					  </div>
+					  </div> -->
 					</div>
     			</div>
 	    		<div class="col-sm-8">
@@ -96,7 +88,7 @@
 		<input type="button" class="print" onClick="window.print()" value="Print">
 
 	    <?php
-		include("config.php");
+		include("admin/config.php");
 		$sql_result="SELECT * FROM add_track ORDER BY track_id DESC LIMIT 3";
 		$query_result=mysqli_query($conn,$sql_result);
 		if(mysqli_num_rows($query_result)>0){
@@ -107,11 +99,12 @@
 	  <thead>
 	    <tr>
 		   <th><b><?php echo $text_result["track_num"]; ?></b>
-		       <p class="text-muted"><b>SIZE/TYPE 20GP  Seal No CF206984</b></p></th>
+		       <p class="text-muted"><b>SIZE/TYPE <?php echo $text_result["type"]; ?> Seal No <?php echo $text_result["seal_no"]; ?></b></p></th>
 		    <th>  ETA<br><b><?php echo $text_result["arrival_date"]; ?>
 		      <?php echo $text_result["arrival"]; ?></b></th>
 		    <th></th>
-		   <th> <button class="subscription">Subscription</button></th>
+		    <th></th>
+		   <!-- <th> <button class="subscription">Subscription</button></th> -->
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -141,7 +134,7 @@
 	<button class="accordion"><i class="fa fa-square"> </i>Close current shipment cycle status</button>
 	<div class="panel">
 	   <?php
-		include("config.php");
+		include("admin/config.php");
 		$sql_result="SELECT * FROM add_track ORDER BY track_id DESC";
 		$query_result=mysqli_query($conn,$sql_result);
 		if(mysqli_num_rows($query_result)>0){
@@ -150,7 +143,7 @@
 	  <thead>
 	    <tr>
 		   <th><b><?php echo $text_result["track_num"]; ?></b>
-		       <p class="text-muted"><b>SIZE/TYPE 20GP  Seal No CF206984</b></p></th>
+		       <p class="text-muted"><b>SIZE/TYPE <?php echo $text_result["type"]; ?>  Seal No <?php echo $text_result["track_num"]; ?></b></p></th>
 		    <th>  ETA<br><b><?php echo $text_result["arrival_date"]; ?>
 		      <?php echo $text_result["arrival"]; ?></b></th>
 		    <th></th>

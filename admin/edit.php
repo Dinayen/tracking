@@ -65,8 +65,8 @@ $sql="SELECT * FROM add_track WHERE track_id=$id";
       <input type="text" class="form-control" id="transportation" name="transportation" value="<?php echo $row['transportation']; ?>">
     </div>
     <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" class="form-control" id="name" name="name" value="<?php echo $row['name']; ?>">
+      <label for="seal">Seal Number:</label>
+      <input type="text" class="form-control" id="seal" name="seal_no" value="<?php echo $row['seal_no']; ?>">
     </div>
 
     <div class="form-group">

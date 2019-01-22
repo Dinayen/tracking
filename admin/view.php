@@ -27,7 +27,7 @@
   <thead class="thead-dark">
     <tr>
      <th>Tracking Number</th>
-	<th>Name</th>
+	<th>Size/Type</th>
 	<th>Details</th>
 	<th><a href="#">Edit</a></th>
 	<th><a href="#">Delete</a></th>
@@ -40,8 +40,8 @@
     <tr>
       <!-- <th scope="row">3</th> -->
      <td><?php echo $result["track_num"];?></td>
-			<td><?php echo $result["name"];?></td>
-			<td><a href="details.php?id=<?php echo $result["track_id"];?>"><button class="btn btn-primary">Details</button></a></td>
+			<td><?php echo $result["type"];?></td>
+			<td><a href="add_details.php?id=<?php echo $result['track_num'];?>&option_id=<?php echo $result['option_id'];?>"><button class="btn btn-primary">Add Details</button></a></td>
 			<td> <a href="edit.php?id=<?php echo $result["track_id"];?>">Edit</a></td>
 			<td> <a href="delete.php?id=<?php echo $result["track_id"];?>">Delete</a></td>
     </tr>
